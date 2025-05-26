@@ -2,26 +2,37 @@ FROM ubuntu:22.04
 
 RUN apt-get update && \
     apt-get install -y \
-    python3 build-essential clisp fpc gawk gccgo ghc git golang lua5.2 mono-mcs ocaml openjdk-11-jdk perl python2.7 racket rake valac \
+    python3 build-essential python3 openjdk-11-jdk \
     python3-pip \
     socat \
     libseccomp2 \
     unzip \
     make \
-    wget
+    wget \
+    rake
 
 # copy all files into container and retain file structure
 COPY ./ / 
 
 RUN chmod 555 /src/server.py
 RUN chmod 555 /run.sh
-RUN wget https://github.com/quark-zju/lrun/archive/refs/tags/v1.2.1.zip
-RUN unzip v1.2.1.zip
-RUN cd v1.2.1
+# RUN wget https://github.com/quark-zju/lrun/archive/refs/tags/v1.2.1.zip
+# RUN unzip v1.2.1.zip
+WORKDIR /lrun-1.2.1
 RUN make install
-RUN gpasswd -a $USER lrun 
-RUN cd ..
-RUN make install 
-RUN ljudge --check
 
-CMD socat TCP-LISTEN:5000,reuseaddr,fork EXEC:/run.sh,stderr
+RUN sysctl -w debug.exception-trace=0
+RUN echo 'debug.exception-trace=0' | tee /etc/sysctl.d/99-disable-trace.conf
+RUN useradd ctfuser
+RUN mkdir -p /home/ctfuser/.cache/ljudge && chown -R ctfuser:ctfuser /home/ctfuser/.cache
+
+RUN gpasswd -a ctfuser lrun 
+WORKDIR /
+RUN make install 
+
+USER ctfuser
+
+# ljudge cannot be run if you are not root 
+# RUN ljudge --check 
+
+CMD socat TCP-LISTEN:5000,reuseaddr,fork EXEC:"python3 /src/server.py",stderr

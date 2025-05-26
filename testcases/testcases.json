@@ -1,10 +1,10 @@
 [
     {
-        "input": "1.in",
-        "output": "1.out"
+        "input": "/testcases/1.in",
+        "output": "/testcases/1.out"
     },
     {
-        "input": "2.in",
-        "output": "2.out"
+        "input": "/testcases/2.in",
+        "output": "/testcases/2.out"
     }
 ]

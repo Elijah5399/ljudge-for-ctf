@@ -1,7 +1,11 @@
-ljudge
+ljudge-for-ctf
 ======
 
 ljudge is a command line tool to compile, run, check its output and generate a JSON report. It is designed to be the backend tool for an online judge system.
+
+ljudge-for-ctf builds on ljudge, with the following additions:
+- Dockerfile to simplify and standardise the deployment of challenges
+- Simplified way of creating testcases to run code against them
 
 Dependencies
 ------------
@@ -116,3 +120,8 @@ Tested in:
 * Arch Linux 2014.11
 
 Some environment variables can change ljudge behavior (for debugging purpose). Therefore the environment variables must be trusted. You can also `export NDEBUG=1` before building ljudge to remove all debug related features.
+
+TO CHANGE:
+- port number in server.py
+- port number in Dockerfile and d
+- 
