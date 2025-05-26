@@ -1,0 +1,6 @@
+services:
+    challenge:
+      container_name: <CHALLENGE NAME>
+      build: .
+      ports:
+          - 32001:5000
