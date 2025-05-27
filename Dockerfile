@@ -19,6 +19,10 @@ RUN chmod 555 /run.sh
 # RUN wget https://github.com/quark-zju/lrun/archive/refs/tags/v1.2.1.zip
 # RUN unzip v1.2.1.zip
 WORKDIR /lrun-1.2.1
+
+RUN sed -i 's|#include "utils/|#include "../../src/utils/|g' tools/mirrorfs/mirrorfs.cc
+RUN sed -i 's|utils/fs.o|../../src/utils/fs.o|g' tools/mirrorfs/Makefile
+
 RUN make install
 
 RUN sysctl -w debug.exception-trace=0
