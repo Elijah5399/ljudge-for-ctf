@@ -1,0 +1,10 @@
+[
+    {
+        "input": "/testcases/1.in",
+        "output": "/testcases/1.out"
+    },
+    {
+        "input": "/testcases/2.in",
+        "output": "/testcases/2.out"
+    }
+]
