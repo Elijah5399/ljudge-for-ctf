@@ -22,7 +22,6 @@ Usage
 - Provide participants with submitter.py and challenge description.
 - Replace the flag which is hardcoded in `server.py`.
 - Simply run `docker compose up` to start the challenge instance. This may take awhile.
-- 
 
 **For CTF players**
 - Run the submitter.py file according to the following syntax:
