@@ -34,9 +34,10 @@ RUN gpasswd -a ctfuser lrun
 WORKDIR /
 RUN make install 
 
-USER ctfuser
+# Stay as root for socat, but run the Python script as ctfuser
+USER root
 
-# ljudge cannot be run if you are not root 
-# RUN ljudge --check 
-
-CMD socat TCP-LISTEN:5000,reuseaddr,fork EXEC:"python3 /src/server.py",stderr
+CMD echo "Starting socat..." && \
+    socat -d -d TCP-LISTEN:5000,reuseaddr,fork SYSTEM:"su - ctfuser -c 'python3 -u /src/server.py' 2>&1; echo 'Script finished with exit code:' \$?" || \
+    (echo "Socat failed, trying alternative..." && \
+     while true; do nc -l -p 5000 -e "su - ctfuser -c 'python3 -u /src/server.py'"; done)

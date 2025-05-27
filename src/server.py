@@ -54,6 +54,9 @@ def main():
     except Exception as e:
         error_msg = {'error': str(e)}
         print(json.dumps(error_msg))
+    
+    sys.stdout.flush()
+    sys.stderr.flush()
 
 if __name__ == '__main__':
     main()
